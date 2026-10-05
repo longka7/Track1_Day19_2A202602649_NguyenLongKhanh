@@ -49,7 +49,7 @@ Ba Practice Notes Day 17 của nhóm (mã ẩn danh; không ghi tên người đ
 | 5 | Thời điểm dừng ngắn để learner tự ghi ý chính/câu hỏi | Không AI | An |
 | 6 | Chia sẻ ghi chú tự nguyện trong nhóm học | Không AI | An, Dũng, Khánh |
 | 7 | Gom note của một bài vào một chỗ, mỗi note có liên kết về slide, tìm kiếm chung trên slide và note | Không AI | An-P01 (05:13), SV1 |
-| 8 | Trợ lý hỏi đáp chỉ dựa trên slide và ghi chú của khóa, có dẫn nguồn | AI | SV1, Dũng-P01 |
+| 8 | Tìm ghi chú theo ý người học tả (tìm theo nghĩa), giữ nguyên nội dung và hiển thị nguồn | AI | SV1, Dũng-P01 |
 | 9 | Tổ chức ghi chú theo "câu hỏi lớn" xuyên nhiều buổi | Không AI | SV2 |
 
 **Chọn cho Day 19:** #7 → **A**; #8 → **B**; #1 → **C** (đổi trigger: AI gom và tổ chức ghi chú liên quan đúng lúc người học quay lại cần dùng, người học kiểm tra trước khi dùng).
@@ -66,17 +66,17 @@ Ba Practice Notes Day 17 của nhóm (mã ẩn danh; không ghi tên người đ
 
 ### Những thứ khác nhau
 
-| Thành phần | Option A — Gom note, gắn nguồn, tự tìm | Option B — Hỏi trợ lý của khóa | Option C — Trợ lý chủ động gom |
+| Thành phần | Option A — Gom note, gắn nguồn, tự tìm | Option B — Tả ý, AI tìm ghi chú gần nghĩa | Option C — Trợ lý chủ động gom |
 |---|---|---|---|
-| Solution mechanism | Mọi ghi chú gom vào một chỗ, mỗi cái có liên kết về slide/mốc video; tìm kiếm chung trên slide và ghi chú | Hỏi bằng lời; AI chỉ trả lời từ slide và ghi chú của khóa, có dẫn nguồn | Khi quay lại cần dùng (mở phần Lab), AI chọn sẵn ghi chú liên quan, kèm lý do và mức chắc chắn |
-| User làm gì? | Gõ từ khóa, đọc kết quả, mở slide gốc, tự viết câu, chèn nguồn | Đặt câu hỏi, chọn ý đúng khi AI hỏi lại, kiểm tra nguồn, sửa câu gợi ý rồi chèn | Xem từng gợi ý, giữ hoặc bỏ, chèn vào nháp, hoàn tác hoặc tắt gợi ý |
-| AI làm gì? | Không suy luận (chỉ khớp từ khóa) | Hiểu câu hỏi, hỏi lại khi mơ hồ, trả lời có nguồn, đề xuất một câu nháp | Đoán ghi chú nào liên quan, giải thích vì sao, gắn mức chắc chắn |
-| Trigger | User chủ động tìm | User chủ động hỏi | Hệ thống tự kích hoạt khi mở phần Lab |
-| Trade-off chính | Kiểm soát cao, đủ nếu "truy cập nhanh" là job chính; nhưng phải nhớ đúng từ khóa | Nhanh khi không nhớ từ khóa; nhưng phải kiểm tra AI | Ít công nhất; nhưng có thể gợi ý sai hoặc gây nhiễu với người thích tự chắt lọc (SV2) |
+| Solution mechanism | Mọi ghi chú gom vào một chỗ, mỗi cái có liên kết về slide/mốc video; tìm kiếm chung trên slide và ghi chú | Người học tả ý mình nhớ bằng lời; AI tìm các ghi chú có ý nghĩa gần nhất, hiển thị nguyên văn kèm nguồn | Khi quay lại cần dùng (mở phần Lab), AI chọn sẵn ghi chú liên quan, kèm lý do và mức chắc chắn |
+| User làm gì? | Gõ từ khóa, đọc kết quả, mở slide gốc, tự viết câu, chèn nguồn | Tả ý mình nhớ, đọc các ghi chú AI tìm ra, mở slide gốc, chọn ghi chú để chèn, tự viết câu | Xem từng gợi ý, giữ hoặc bỏ, chèn vào nháp, hoàn tác hoặc tắt gợi ý |
+| AI làm gì? | Không suy luận (chỉ khớp từ khóa) | Hiểu nghĩa câu mô tả và xếp hạng ghi chú theo độ gần nghĩa; không viết lại, không tóm tắt, không tạo nội dung mới | Đoán ghi chú nào liên quan, giải thích vì sao, gắn mức chắc chắn |
+| Trigger | User chủ động tìm | User chủ động mô tả | Hệ thống tự kích hoạt khi mở phần Lab |
+| Trade-off chính | Kiểm soát cao, đủ nếu "truy cập nhanh" là job chính; nhưng phải nhớ đúng từ khóa | Tìm được khi không nhớ đúng từ khóa, nội dung vẫn là của người học; nhưng AI có thể xếp sai và chỉ tìm được những gì đã ghi | Ít công nhất; nhưng có thể gợi ý sai hoặc gây nhiễu với người thích tự chắt lọc (SV2) |
 
 ### Distance check
-- **A khác B vì:** ở A người học tự tìm và tự diễn giải; ở B AI hiểu câu hỏi, chọn ý và đề xuất câu viết.
-- **B khác C vì:** ở B người học khởi động và đặt câu hỏi; ở C AI khởi động trước khi người học hỏi gì.
+- **A khác B vì:** ở A hệ thống chỉ khớp đúng từ khóa người học gõ; ở B AI hiểu ý người học tả và xếp hạng ghi chú theo nghĩa, nên người học không cần nhớ đúng từ.
+- **B khác C vì:** ở B người học khởi động bằng cách tả ý cần tìm; ở C AI khởi động trước khi người học tìm gì.
 - **A khác C vì:** A không có suy luận, mọi kết quả đều do người học tìm; C để AI quyết định cái gì đáng xem, người học chỉ duyệt.
 
 Spectrum: **A** user tạo/khởi động → **B** user + AI cùng làm → **C** AI khởi động, user duyệt.
@@ -95,11 +95,11 @@ Critical interaction: **từ lúc cần tìm ý đã học đến lúc chèn câ
 
 | Human–AI decision | Option A | Option B | Option C |
 |---|---|---|---|
-| User làm gì? AI làm gì? | User tìm, đọc, tự viết. AI không tham gia; hệ thống chỉ gắn nguồn lúc ghi và khớp từ khóa. | User hỏi, chọn ý, kiểm tra, sửa. AI hiểu câu hỏi, hỏi lại, trả lời có nguồn, gợi ý câu. | AI chọn ghi chú và giải thích. User giữ/bỏ, chèn, hoàn tác, tắt. |
-| AI Act / Ask / Don't Act? Vì sao? | **Don't Act.** Người học muốn tự chắt lọc (SV2); sai ở đây là tìm không ra, user thấy ngay. | **Ask** khi có 2 ý gần nhau, rồi **Act** (trả lời + gợi ý câu) sau khi user chọn. Hiểu sai câu hỏi thì câu nháp sai ý, nên phải hỏi lại trước. | **Act** (đề xuất) nhưng không tự chèn. Sai thì chỉ tốn một lần bấm "Bỏ"; tự chèn sẽ làm hỏng nháp của user. |
-| User hiểu capability/limit bằng gì? | Câu mô tả: mỗi ghi chú đã gắn slide/mốc video lúc ghi; ghi chú chưa gắn nguồn có nhãn riêng. | Dòng giới hạn: "chỉ đọc slide Day 15–17 và ghi chú của bạn, không tìm trên Internet". | Dòng giới thiệu: trợ lý đọc ghi chú Day 15–17 và chọn ghi chú có thể dùng; bạn quyết định giữ/bỏ. |
-| Evidence/uncertainty thể hiện thế nào? | Kết quả tách "Ghi chú của bạn" và "Slide"; nhãn "Ghi chú này chưa gắn nguồn". | Nhãn "Dựa trên 1 slide và 1 ghi chú của bạn" hoặc "Chỉ dựa trên 1 slide"; nút mở nguồn ngay trong câu trả lời. | Mỗi thẻ có "Vì sao gợi ý" và nhãn "Liên quan rõ" / "Chưa chắc liên quan". |
-| User kiểm soát và recovery thế nào? | Sửa từ khóa, mở slide gốc, tự viết; xóa nháp hoặc "Bắt đầu lại". | "Không đúng ý mình" để bỏ câu trả lời và chọn lại; sửa câu gợi ý trước khi chèn; "Không phải cả hai" để mô tả thêm. | "Bỏ" từng thẻ, "Hoàn tác", "Tắt gợi ý cho phần này" (bật lại được); sửa nháp sau khi chèn. |
+| User làm gì? AI làm gì? | User tìm, đọc, tự viết. AI không tham gia; hệ thống chỉ gắn nguồn lúc ghi và khớp từ khóa. | User tả ý, đọc, chọn ghi chú, tự viết. AI chỉ tìm và xếp hạng ghi chú theo nghĩa; nội dung hiển thị nguyên văn. | AI chọn ghi chú và giải thích. User giữ/bỏ, chèn, hoàn tác, tắt. |
+| AI Act / Ask / Don't Act? Vì sao? | **Don't Act.** Người học muốn tự chắt lọc (SV2); sai ở đây là tìm không ra, user thấy ngay. | **Act** ở mức tìm và xếp hạng, **Don't Act** với nội dung: AI không viết lại hay tóm tắt. Nếu AI xếp sai, user thấy ngay vì đọc nguyên văn ghi chú của chính mình; thiệt hại thấp. | **Act** (đề xuất) nhưng không tự chèn. Sai thì chỉ tốn một lần bấm "Bỏ"; tự chèn sẽ làm hỏng nháp của user. |
+| User hiểu capability/limit bằng gì? | Câu mô tả: mỗi ghi chú đã gắn slide/mốc video lúc ghi; ghi chú chưa gắn nguồn có nhãn riêng. | Dòng mô tả: "không cần đúng từ khóa… trợ lý tìm trong ghi chú của bạn… không viết lại hay tóm tắt"; dòng "Nội dung bên dưới là nguyên văn ghi chú của bạn". | Dòng giới thiệu: trợ lý đọc ghi chú Day 15–17 và chọn ghi chú có thể dùng; bạn quyết định giữ/bỏ. |
+| Evidence/uncertainty thể hiện thế nào? | Kết quả tách "Ghi chú của bạn" và "Slide"; nhãn "Ghi chú này chưa gắn nguồn". | Mỗi kết quả có nhãn "Gần nhất" / "Có thể liên quan", nguồn (buổi/mốc video), nút "Mở slide gốc"; nhãn "Ghi chú này chưa gắn nguồn". Không tìm thấy thì nói rõ. | Mỗi thẻ có "Vì sao gợi ý" và nhãn "Liên quan rõ" / "Chưa chắc liên quan". |
+| User kiểm soát và recovery thế nào? | Sửa từ khóa, mở slide gốc, tự viết; xóa nháp hoặc "Bắt đầu lại". | Chọn ghi chú nào để dùng; "Không có ghi chú nào đúng ý mình" để bỏ kết quả và tả lại; sửa nháp sau khi chèn; chuyển sang tìm từ khóa (A). | "Bỏ" từng thẻ, "Hoàn tác", "Tắt gợi ý cho phần này" (bật lại được); sửa nháp sau khi chèn. |
 
 **Feedback and data check:** prototype không ghi nhớ gì giữa các lần mở. Option B/C đọc ghi chú cá nhân, nên bản thật cần cho user biết và cho phép tắt. Câu hỏi mở: [ghi chú cá nhân có được dùng để gợi ý lần sau không?].
 
@@ -122,9 +122,9 @@ Watch for: từ khóa đầu tiên họ gõ; có mở slide gốc không; có đ
 Do not explain: ghi chú đã được gắn nguồn sẵn; cách tìm không dấu.
 
 OPTION B
-We expect the tester to: hỏi bằng lời, chọn một trong hai ý AI đưa ra, sửa hoặc giữ câu gợi ý, rồi chèn.
-Watch for: có đọc nhãn "Dựa trên…" không; có bấm mở nguồn để kiểm tra không; có sửa câu gợi ý hay chèn nguyên; có dùng "Không đúng ý mình".
-Do not explain: AI chỉ đọc tài liệu khóa; vì sao AI hỏi lại.
+We expect the tester to: tả ý bằng lời của mình, đọc các ghi chú được tìm ra, mở slide gốc, chọn ghi chú đúng và tự viết câu.
+Watch for: tester tả ý thế nào (từ khóa hay câu dài); có đọc nhãn "Gần nhất / Có thể liên quan" không; có mở slide gốc không; có mong AI viết hộ câu không; có dùng "Không có ghi chú nào đúng ý mình".
+Do not explain: AI tìm theo nghĩa chứ không theo từ khóa; vì sao AI không tóm tắt.
 
 OPTION C
 We expect the tester to: đọc 3 thẻ gợi ý, chèn thẻ đúng, bỏ thẻ "Chưa chắc liên quan".

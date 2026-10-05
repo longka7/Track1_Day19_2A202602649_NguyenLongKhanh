@@ -171,48 +171,48 @@ ul.clean{margin:0;padding-left:18px}
     });
   }
 
-  // ---------- Option B: ask AI grounded in course + notes, AI asks when ambiguous, cites sources ----------
+  // ---------- Option B: user describes the idea in own words; AI ranks notes by meaning, shows them verbatim with source ----------
+  // Canned "semantic" match: each note has a set of related concepts (stands in for an embedding model).
+  var CONCEPTS={
+    N1:['khong ai can','khong ai dung','ko ai can','chang ai dung','dung han','dung spec','tinh nang','metric','chi so','khong nhich','that bai','vo ich','thua','build trap','lam tot','lam xong'],
+    N2:['problem','van de','giai phap','solution','tinh nang','tach','problem statement','dung viet'],
+    N3:['teardown','nguyen ly','copy','san pham','tinh nang','bat chuoc','feature factory'],
+    N4:['phong van','hoi','qua khu','thich','mom test','nguoi dung','cau hoi'],
+    N5:['jtbd','job','muon','outcome','situation','ket qua']
+  };
+  function scoreNote(desc,id){
+    var d=norm(desc),sc=0;
+    CONCEPTS[id].forEach(function(c){ if(d.indexOf(c)>-1) sc+=c.split(' ').length; else c.split(' ').forEach(function(w){ if(w.length>2 && (' '+d+' ').indexOf(' '+w+' ')>-1) sc+=0.3; }); });
+    return sc;
+  }
   function renderB(){
     stage.innerHTML=
-      '<h2>Hỏi trợ lý của khóa học</h2>'+
-      '<p class="muted" style="font-size:13px">Trợ lý chỉ đọc slide Day 15–17 và ghi chú của bạn. Nó không tìm trên Internet.</p>'+
-      '<div class="chat" id="chatB"></div>'+
-      '<form id="formB" class="row" style="flex-wrap:nowrap"><label for="qB" class="muted" style="position:absolute;left:-9999px">Câu hỏi</label><input type="text" id="qB" placeholder="Hỏi bằng lời của bạn…" autocomplete="off"><button class="btn primary" type="submit">Gửi</button></form>';
-    var chat=document.getElementById('chatB'),form=document.getElementById('formB'),q=document.getElementById('qB'),step=0;
-    function push(cls,html){var d=document.createElement('div');d.className='bubble '+cls;d.innerHTML=html;chat.appendChild(d);return d}
+      '<h2>Tả lại ý bạn nhớ</h2>'+
+      '<p class="muted" style="font-size:13px">Viết theo cách bạn nhớ, không cần đúng từ khóa. Trợ lý tìm trong ghi chú của bạn những ghi chú có ý nghĩa gần nhất. Nó không viết lại hay tóm tắt ghi chú.</p>'+
+      '<form id="formB" style="display:flex;flex-direction:column;gap:8px"><label for="qB" class="muted" style="font-size:13px">Ý bạn nhớ</label><textarea id="qB" rows="3" placeholder="Ví dụ: cái ý làm xong tính năng mà rốt cuộc chẳng ai dùng…"></textarea><div class="row"><button class="btn primary" type="submit">Tìm ghi chú gần nhất</button></div></form>'+
+      '<div id="resB" style="display:flex;flex-direction:column;gap:10px"></div>';
+    var form=document.getElementById('formB'),q=document.getElementById('qB'),res=document.getElementById('resB');
     form.addEventListener('submit',function(e){
-      e.preventDefault();var t=q.value.trim();if(!t)return;push('user',esc(t));q.value='';mark('ask:'+t);
-      if(step===0){
-        step=1;
-        push('ai','Mình tìm thấy hai ý gần với câu hỏi. Bạn đang nhớ tới ý nào?'+
-          '<div class="row" style="margin-top:8px"><button class="btn" type="button" data-pick="D17-S04">Tính năng xong đúng hạn nhưng không ai dùng</button><button class="btn" type="button" data-pick="D16-S12">Đo thành công bằng số tính năng giao</button><button class="btn ghost" type="button" data-pick="none">Không phải cả hai</button></div>');
-      }else{
-        push('ai','Mình chỉ trả lời được dựa trên tài liệu của khóa. Bạn thử hỏi lại cụ thể hơn, hoặc dùng ô tìm kiếm ở phương án A.');
-      }
+      e.preventDefault();var t=q.value.trim();if(t.length<4){res.innerHTML='<p class="muted">Bạn tả thêm một chút để trợ lý tìm được.</p>';return}
+      mark('describe:'+t);
+      var ranked=NOTES.map(function(n){return {n:n,s:scoreNote(t,n.id)}}).filter(function(x){return x.s>0}).sort(function(a,b){return b.s-a.s}).slice(0,3);
+      if(!ranked.length){res.innerHTML='<p>Chưa tìm thấy ghi chú nào gần với ý bạn tả.</p><p class="muted" style="font-size:13px">Thử tả bằng một ví dụ hoặc tình huống bạn nhớ, hoặc dùng tìm từ khóa ở phương án A.</p>';mark('no-match');return}
+      var top=ranked[0].s,h='<h3>Ghi chú gần nhất với ý bạn tả</h3><p class="muted" style="font-size:13px">Nội dung bên dưới là nguyên văn ghi chú của bạn.</p>';
+      ranked.forEach(function(x){
+        var n=x.n,lvl=x.s>=top*0.8&&x.s>=2?'<span class="chip">Gần nhất</span>':'<span class="chip low">Có thể liên quan</span>';
+        var s=n.anchor?byId(SLIDES,n.anchor):null;
+        h+='<div class="note"><div class="row" style="justify-content:space-between"><span class="who">'+esc(n.src)+'</span>'+lvl+'</div>'+
+           '<p>'+esc(n.text)+'</p>'+
+           '<div class="row">'+(s?'<button class="btn ghost" type="button" data-open="'+n.anchor+'">Mở slide gốc</button><button class="btn" type="button" data-pickb="'+n.id+'">Dùng ghi chú này</button>':'<span class="chip low">Ghi chú này chưa gắn nguồn</span><button class="btn" type="button" data-pickb="'+n.id+'">Dùng ghi chú này</button>')+'</div><div data-slot></div></div>';
+      });
+      h+='<div class="row"><button class="btn ghost" type="button" data-none="1">Không có ghi chú nào đúng ý mình</button></div>';
+      res.innerHTML=h;mark('results:'+ranked.map(function(x){return x.n.id}).join(','));
     });
-    chat.addEventListener('click',function(e){
-      var p=e.target.getAttribute('data-pick');
-      if(p==='none'){mark('pick:none');push('ai','Mình chưa tìm thấy ý khác trong tài liệu của bạn. Bạn mô tả thêm một chi tiết (buổi nào, ví dụ nào) nhé.');return}
-      if(p){
-        mark('pick:'+p);var s=byId(SLIDES,p);var n=NOTES.filter(function(x){return x.anchor===p})[0];
-        var conf=n?'<span class="chip">Dựa trên 1 slide và 1 ghi chú của bạn</span>':'<span class="chip low">Chỉ dựa trên 1 slide, không có ghi chú của bạn</span>';
-        var ans=p==='D17-S04'
-          ?'Ý này là "build trap": nhóm giao tính năng đúng spec, đúng hạn nhưng chỉ số không đổi vì không ai thật sự cần nó.'
-          :'Ý này là "feature factory": nhóm đo thành công bằng số tính năng đã giao, không bằng thay đổi ở người dùng.';
-        var sug=p==='D17-S04'
-          ?'Nhóm không đo thành công bằng việc giao xong tính năng ghi chú, mà bằng việc người học tìm lại được kiến thức nhanh hơn (tránh "build trap").'
-          :'Nhóm không đo thành công bằng số tính năng giao, mà bằng thay đổi trong cách người học ôn tập.';
-        push('ai','<p>'+esc(ans)+'</p><div class="row" style="margin-top:6px">'+conf+'</div>'+
-          '<div class="row" style="margin-top:6px"><button class="src" type="button" data-open="'+p+'">'+esc(s.src)+'</button>'+(n?'<button class="src" type="button" data-open="'+p+'">Ghi chú: '+esc(n.text.slice(0,28))+'…</button>':'')+'</div>'+
-          '<div data-slot></div>'+
-          '<div class="preview" style="margin-top:8px"><span class="mono muted">CÂU GỢI Ý · BẠN SỬA ĐƯỢC TRƯỚC KHI CHÈN</span><textarea rows="3" data-sug>'+esc(sug)+'</textarea>'+
-          '<div class="row"><button class="btn primary" type="button" data-ins="'+esc(s.src)+'">Chèn vào nháp</button><button class="btn" type="button" data-wrong="1">Không đúng ý mình</button></div></div>');
-      }
-      var o=e.target.getAttribute('data-open');
-      if(o){var b=e.target.closest('.bubble');var slot=b.querySelector('[data-slot]');slot.innerHTML=slot.innerHTML?'':sourceCard(o);mark('open:'+o)}
-      var ins=e.target.getAttribute('data-ins');
-      if(ins){var ta=e.target.closest('.preview').querySelector('[data-sug]');insertText(ta.value);addCite(ins)}
-      if(e.target.getAttribute('data-wrong')){mark('reject');push('ai','Đã bỏ câu trả lời này. Bạn chọn lại ý khác:<div class="row" style="margin-top:8px"><button class="btn" type="button" data-pick="D17-S04">Tính năng xong đúng hạn nhưng không ai dùng</button><button class="btn" type="button" data-pick="D16-S12">Đo thành công bằng số tính năng giao</button></div>')}
+    res.addEventListener('click',function(e){
+      var o=e.target.getAttribute('data-open'),p=e.target.getAttribute('data-pickb');
+      if(o){var slot=e.target.closest('.note').querySelector('[data-slot]');slot.innerHTML=slot.innerHTML?'':sourceCard(o);mark('open:'+o)}
+      if(p){var n=byId(NOTES,p);insertText(n.text);addCite(n.anchor?byId(SLIDES,n.anchor).src:n.src);e.target.disabled=true;e.target.textContent='Đã chèn vào nháp'}
+      if(e.target.getAttribute('data-none')){mark('reject-all');res.innerHTML='<p>Đã bỏ kết quả. Bạn tả lại theo cách khác, ví dụ một tình huống hoặc ví dụ đi kèm ý đó.</p>';q.focus()}
     });
   }
 

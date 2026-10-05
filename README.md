@@ -17,7 +17,7 @@ Chi tiết ở [three-option-design-sheet.md](three-option-design-sheet.md).
 
 ## 3. Three Solution Options
 - **A — Gom note, gắn nguồn, tự tìm (không AI):** mọi ghi chú gom về một chỗ, mỗi cái có liên kết về slide/mốc video; người học tìm trên cả slide và ghi chú.
-- **B — Hỏi trợ lý của khóa:** người học hỏi bằng lời; AI chỉ dùng slide và ghi chú của khóa, hỏi lại khi mơ hồ, trả lời có nguồn, gợi ý câu để người học sửa.
+- **B — Tả ý, AI tìm ghi chú gần nghĩa:** người học tả ý mình nhớ bằng lời; AI tìm các ghi chú có ý nghĩa gần nhất, giữ nguyên nội dung và hiển thị nguồn; người học tự chọn và tự viết.
 - **C — Trợ lý chủ động gom:** khi mở phần Lab, AI chọn sẵn ghi chú liên quan kèm lý do và mức chắc chắn; người học giữ/bỏ, hoàn tác hoặc tắt.
 
 Prototype: [prototype-link.md](prototype-link.md)

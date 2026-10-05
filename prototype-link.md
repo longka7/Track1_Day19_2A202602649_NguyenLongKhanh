@@ -11,6 +11,6 @@
 4. **Bắt đầu lại** xóa nháp và đưa về phương án A.
 
 ## Ghi chú kỹ thuật
-- HTML/CSS/JS thuần, không gọi model hay API thật. Mọi câu trả lời của "trợ lý" ở B và C đều viết sẵn.
+- HTML/CSS/JS thuần, không gọi model hay API thật. Phần "tìm theo nghĩa" ở B được giả lập bằng bộ khái niệm viết sẵn cho từng ghi chú; gợi ý ở C viết sẵn.
 - Dữ liệu slide và ghi chú là dữ liệu mẫu, viết theo phong cách ghi chú của SV1.
 - Mỗi thao tác được ghi vào console trình duyệt với tiền tố `[proto]`. Facilitator có thể xem lại thứ tự thao tác; tester không thấy.
