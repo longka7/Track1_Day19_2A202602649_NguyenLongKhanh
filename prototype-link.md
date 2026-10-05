@@ -6,11 +6,11 @@
 
 ## Cách dùng (flow end-to-end)
 1. **Màn đầu:** đọc tình huống và nhiệm vụ, chọn **Phương án A / B / C**.
-2. **Màn học video** (giống giao diện VLearn): menu bài học, video "Video 01. Mở đầu" (bấm ▶ để chạy, bấm thanh tua để nhảy đoạn), ô **Nháp Lab · Chặng 1 · phần Change**, panel phải có tab **Transcript · Ghi chú · Tài liệu**.
-   - **A:** tab Ghi chú → chọn phạm vi (Video này / Tất cả ghi chú của khóa) → gõ từ khóa → bấm nguồn để mở lại đúng đoạn video, hoặc "Chèn nguồn vào nháp".
-   - **B:** tab Transcript → bôi đen hoặc bấm vào một câu → thanh thao tác: Thêm vào ghi chú · Chưa hiểu · Chèn vào nháp → ở tab Ghi chú: viết ý riêng, nhận/bỏ thẻ AI gợi ý, chèn vào nháp; có Hoàn tác, Xóa.
-   - **C:** khi người học bấm vào ô nháp Lab, trợ lý tự mở tab Ghi chú với 3 gợi ý (kèm "Vì sao gợi ý" và mức chắc chắn) → Chèn vào nháp / Bỏ / Hoàn tác / Tắt gợi ý (bật lại được).
-   - Ở mọi phương án: nguồn đã chèn hiện dưới ô nháp, bỏ được bằng "×".
+2. **Màn học video** (giống giao diện VLearn): menu bài học, video "Video 01. Mở đầu" (bấm ▶ để chạy, bấm thanh tua để nhảy đoạn), ô **Bài Lab của bạn – phần Change**, panel phải có tab **Transcript · Ghi chú · Tài liệu**.
+   - **A:** tab Ghi chú → chọn phạm vi (Video này / Tất cả ghi chú của khóa) → gõ từ khóa → bấm nguồn để mở lại đúng đoạn video, hoặc "Chèn vào bài Lab".
+   - **B:** tab Transcript → bôi đen hoặc bấm vào một câu → thanh thao tác: Thêm vào ghi chú · Chưa hiểu · Chèn vào bài Lab → ở tab Ghi chú: viết ý riêng, nhận/bỏ thẻ AI gợi ý, chèn vào nháp; có Hoàn tác, Xóa.
+   - **C:** khi người học bấm vào ô bài Lab, trợ lý tự mở tab Ghi chú với 3 gợi ý (kèm "Vì sao gợi ý" và mức chắc chắn) → Chèn vào bài Lab / Bỏ / Hoàn tác / Tắt gợi ý (bật lại được).
+   - Ở mọi phương án: nguồn đã chèn hiện dưới ô bài Lab, bỏ được bằng "×".
 3. **Màn kết quả:** bấm "Xong phương án này" để xem nháp và nguồn đã gắn → **Thử phương án khác**, **Làm lại**, hoặc **Về màn đầu** (màn đầu đánh dấu phương án đã thử).
 4. **Bắt đầu lại** ở thanh trên cùng luôn đưa về màn đầu, xóa nháp.
 

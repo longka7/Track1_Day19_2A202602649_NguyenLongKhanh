@@ -61,7 +61,7 @@ Ba Practice Notes Day 17 của nhóm (mã ẩn danh; không ghi tên người đ
 |---|---|
 | Target user | Học viên khóa online trên VLearn có nền tech, tự ghi chú khi học |
 | Situation | Đang làm Lab, cần một ý đã học từ các buổi trước nhưng không nhớ nằm ở buổi/slide nào |
-| Task | Tìm lại ý "làm rất tốt một thứ không ai cần", biết nó đến từ đâu, viết một câu có dẫn nguồn vào nháp Lab |
+| Task | Tìm lại ý "làm rất tốt một thứ không ai cần", biết nó đến từ đâu, viết một câu có dẫn nguồn vào bài Lab |
 | Desired outcome | Câu trong nháp đúng ý bài học và có nguồn (buổi/slide/mốc video) |
 | Content/data fixture | 3 buổi Day 15–17, 4 slide tiêu biểu, 5 ghi chú mẫu ngắn kiểu ghi theo từ khóa (1 ghi chú không gắn nguồn); dữ liệu mẫu |
 
@@ -69,7 +69,7 @@ Ba Practice Notes Day 17 của nhóm (mã ẩn danh; không ghi tên người đ
 
 | Thành phần | Option A — Gom note, gắn nguồn, tự tìm | Option B — Bôi đen để ghi chú tại nguồn | Option C — Trợ lý chủ động gom |
 |---|---|---|---|
-| Solution mechanism | Mọi ghi chú gom vào một chỗ, mỗi cái có liên kết về slide/mốc video; tìm kiếm chung trên slide và ghi chú | Người học bôi đen một đoạn trong transcript/slide; thanh thao tác hiện ra: Thêm vào ghi chú · Đánh dấu "Chưa hiểu" · Chèn vào nháp kèm nguồn. Ghi chú tự gắn video + mốc thời gian | Khi quay lại cần dùng (mở phần Lab), AI chọn sẵn ghi chú liên quan, kèm lý do và mức chắc chắn |
+| Solution mechanism | Mọi ghi chú gom vào một chỗ, mỗi cái có liên kết về slide/mốc video; tìm kiếm chung trên slide và ghi chú | Người học bôi đen một đoạn trong transcript/slide; thanh thao tác hiện ra: Thêm vào ghi chú · Đánh dấu "Chưa hiểu" · Chèn vào bài Lab kèm nguồn. Ghi chú tự gắn video + mốc thời gian | Khi quay lại cần dùng (mở phần Lab), AI chọn sẵn ghi chú liên quan, kèm lý do và mức chắc chắn |
 | User làm gì? | Gõ từ khóa, đọc kết quả, mở slide gốc, tự viết câu, chèn nguồn | Mở transcript, bôi đen đoạn cần, chọn thao tác, viết thêm ý của mình, nhận hoặc bỏ thẻ AI gợi ý, chèn vào nháp | Xem từng gợi ý, giữ hoặc bỏ, chèn vào nháp, hoàn tác hoặc tắt gợi ý |
 | AI làm gì? | Không suy luận (chỉ khớp từ khóa) | Chỉ gợi ý 1–2 thẻ khái niệm cho ghi chú vừa tạo (ví dụ "build trap"); không đổi đoạn đã chọn, không tự gắn thẻ | Đoán ghi chú nào liên quan, giải thích vì sao, gắn mức chắc chắn |
 | Trigger | User chủ động tìm | User bôi đen một đoạn | Hệ thống tự kích hoạt khi mở phần Lab |
@@ -111,14 +111,14 @@ Critical interaction: **từ lúc cần tìm ý đã học đến lúc chèn câ
 ## Chặng 4 — Micro-prototype
 
 - Link A/B/C: xem `prototype-link.md`. Mã nguồn: `prototype/index.html` (HTML/CSS/JS, phản hồi AI viết sẵn, không gọi model thật).
-- **Phần chung:** màn đầu (tình huống + nhiệm vụ + chọn option) → màn học video theo giao diện VLearn (menu bài học, video Video 01, ô "Nháp Lab · Chặng 1 · phần Change", panel Transcript/Ghi chú/Tài liệu) → màn kết quả (nháp + nguồn, thử option khác, về màn đầu); dữ liệu mẫu; nút "Bắt đầu lại".
-- **Phần khác:** chỉ tương tác trong panel phải: A tìm trong tab Ghi chú; B bôi đen trong tab Transcript; C trợ lý tự mở tab Ghi chú khi người học bấm vào ô nháp Lab.
+- **Phần chung:** màn đầu (tình huống + nhiệm vụ + chọn option) → màn học video theo giao diện VLearn (menu bài học, video Video 01, ô "Bài Lab của bạn – phần Change", panel Transcript/Ghi chú/Tài liệu) → màn kết quả (nháp + nguồn, thử option khác, về màn đầu); dữ liệu mẫu; nút "Bắt đầu lại".
+- **Phần khác:** chỉ tương tác trong panel phải: A tìm trong tab Ghi chú; B bôi đen trong tab Transcript; C trợ lý tự mở tab Ghi chú khi người học bấm vào ô bài Lab.
 
 ### Cải tiến cho dễ dùng (áp dụng đều cho A/B/C)
-- **Chung:** sau mỗi lần chèn, ô nháp nháy viền và hiện "Đã chèn vào nháp · Hoàn tác" (khôi phục cả nội dung lẫn nguồn); tab hiện số ghi chú "Ghi chú (n)"; câu trong transcript sáng lên khi rê chuột; nguồn bỏ được bằng "×".
-- **A:** nút "Chèn vào nháp" chèn cả nội dung ghi chú lẫn nguồn; từ khóa khớp được tô màu; truy vấn nhiều từ phải khớp ít nhất 2 từ và kết quả xếp theo độ khớp; Enter nhảy tới kết quả đầu tiên. Không thêm gợi ý từ khóa để tránh mớm câu trả lời cho tester.
+- **Chung:** sau mỗi lần chèn, ô bài Lab nháy viền và hiện "Đã chèn vào bài Lab · Hoàn tác" (khôi phục cả nội dung lẫn nguồn); tab hiện số ghi chú "Ghi chú (n)"; câu trong transcript sáng lên khi rê chuột; nguồn bỏ được bằng "×".
+- **A:** nút "Chèn vào bài Lab" chèn cả nội dung ghi chú lẫn nguồn; từ khóa khớp được tô màu; truy vấn nhiều từ phải khớp ít nhất 2 từ và kết quả xếp theo độ khớp; Enter nhảy tới kết quả đầu tiên. Không thêm gợi ý từ khóa để tránh mớm câu trả lời cho tester.
 - **B:** dòng hướng dẫn ngắn đầu transcript ("Bấm vào một câu (hoặc bôi đen) để ghi chú, đánh dấu chưa hiểu hoặc chèn vào nháp"); thông báo sau khi thêm có nút "Xem".
-- **C:** khi trợ lý có gợi ý mà người học đang ở tab khác, một dòng nhắc hiện ngay dưới ô nháp và mở tab Ghi chú khi bấm.
+- **C:** khi trợ lý có gợi ý mà người học đang ở tab khác, một dòng nhắc hiện ngay dưới ô bài Lab và mở tab Ghi chú khi bấm.
 
 ### Annotation (không hiện cho tester)
 
@@ -129,7 +129,7 @@ Watch for: từ khóa đầu tiên họ gõ; có mở slide gốc không; có đ
 Do not explain: ghi chú đã được gắn nguồn sẵn; cách tìm không dấu.
 
 OPTION B
-We expect the tester to: mở transcript, bôi đen (hoặc bấm) câu "Làm rất tốt một thứ không ai cần", chọn "Thêm vào ghi chú" hoặc "Chèn vào nháp kèm nguồn", có thể nhận thẻ AI gợi ý.
+We expect the tester to: mở transcript, bôi đen (hoặc bấm) câu "Làm rất tốt một thứ không ai cần", chọn "Thêm vào ghi chú" hoặc "Chèn vào bài Lab kèm nguồn", có thể nhận thẻ AI gợi ý.
 Watch for: tester có tự phát hiện thao tác bôi đen không; chọn thao tác nào đầu tiên; có viết thêm ý riêng không; có nhận/bỏ thẻ AI không; có dùng Hoàn tác không.
 Do not explain: có thể bấm vào câu thay vì bôi đen; thẻ viền đứt là gợi ý chưa gắn.
 
@@ -147,7 +147,7 @@ Do not explain: vì sao trợ lý tự hiện; nghĩa của nhãn mức chắc c
 
 **Relevant context (≤ 2 phút):** "Gần đây bạn có từng cần dùng lại một kiến thức đã học từ vài tuần trước, cho bài tập hay công việc, không? Lần đó bạn tìm lại thế nào?"
 
-**Outcome task (dùng chung cho A/B/C):** "Trong tình huống này, hãy dùng từng phương án để tìm lại ý 'làm rất tốt một thứ không ai cần', biết nó đến từ đâu, và viết một câu có nguồn vào nháp Lab."
+**Outcome task (dùng chung cho A/B/C):** "Trong tình huống này, hãy dùng từng phương án để tìm lại ý 'làm rất tốt một thứ không ai cần', biết nó đến từ đâu, và viết một câu có nguồn vào bài Lab."
 
 **Observation focus (5):** first action · hesitation · evidence read/ignored · correction/recovery · option được chọn và trade-off.
 
