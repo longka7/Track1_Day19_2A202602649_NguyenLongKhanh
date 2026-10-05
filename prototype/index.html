@@ -104,6 +104,13 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
 @keyframes fd{from{box-shadow:0 0 0 3px #F59E0B}to{box-shadow:0 0 0 0 transparent}}
 @media (prefers-reduced-motion:reduce){.flashdraft{animation:none}}
 .hint{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;padding:8px 10px;border-radius:8px;background:var(--brand-soft)}
+.guide{position:absolute;z-index:50;width:min(320px,calc(100vw - 32px));background:var(--toast);color:var(--toast-ink);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.guide .gstep{font-family:var(--mono);font-size:11px;opacity:.8}
+.guide .gbtns{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.guide button{border:0;border-radius:6px;min-height:32px;padding:0 12px;font-weight:600;cursor:pointer}
+.guide .gnext{background:#3B82F6;color:#fff}
+.guide .gskip{background:transparent;color:inherit;text-decoration:underline}
+.guide-target{outline:3px solid #F59E0B!important;outline-offset:3px;border-radius:8px;position:relative;z-index:40}
 .banner{background:var(--brand-soft);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 </style>
 
@@ -122,6 +129,7 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
       <button class="optcard" type="button" data-start="B"><b>Phương án B</b><span class="muted">Mở bài học và làm nhiệm vụ.</span><span class="tick" data-tick="B"></span></button>
       <button class="optcard" type="button" data-start="C"><b>Phương án C</b><span class="muted">Mở bài học và làm nhiệm vụ.</span><span class="tick" data-tick="C"></span></button>
     </div>
+    <label class="row" style="font-size:13px;gap:8px"><input type="checkbox" id="guideOn" checked style="width:18px;height:18px"> Hiện hướng dẫn nhanh khi mở mỗi phương án</label>
     <p class="muted" style="font-size:12px">Dữ liệu trong bản thử là dữ liệu mẫu. Không có AI thật; phần gợi ý được viết sẵn.</p>
   </section>
 
@@ -131,6 +139,7 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
       <span class="ttl">Ngày 2 · Day 17 · Track 1 - Product Discovery: Finding and Validating Pain Points</span>
       <span class="chip" id="optBadge">Phương án A</span>
       <span class="muted" style="font-size:13px">3/22 hoạt động</span><span class="prog" aria-hidden="true"><i></i></span>
+      <button class="btn" type="button" id="guideBtn">Hướng dẫn</button>
       <button class="btn" type="button" data-go="start">Bắt đầu lại</button>
     </header>
     <div class="shell">
@@ -189,6 +198,13 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
     </div>
   </section>
 
+  <div id="guide" class="guide" role="dialog" aria-live="polite" aria-label="Hướng dẫn" hidden>
+    <span class="gstep" id="gStep">1/3</span>
+    <b id="gTitle"></b>
+    <span id="gText" style="font-size:13px"></span>
+    <div class="gbtns"><button type="button" class="gskip" id="gSkip">Bỏ qua</button><span style="display:flex;gap:6px"><button type="button" class="gskip" id="gBack">Quay lại</button><button type="button" class="gnext" id="gNext">Tiếp</button></span></div>
+  </div>
+
   <!-- RESULT -->
   <section id="result" class="page" hidden aria-labelledby="h-res">
     <span class="mono muted" id="resEyebrow">PHƯƠNG ÁN A · ĐÃ XONG</span>
@@ -230,7 +246,7 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
   var S={};var tried={};var log=[];
   function mark(ev){log.push({opt:S.opt,ev:ev,t:new Date().toISOString().slice(11,19)});try{console.log('[proto]',S.opt,ev)}catch(e){}}
 
-  function show(id){['start','lesson','result'].forEach(function(k){$(k).hidden=(k!==id)});window.scrollTo(0,0)}
+  function show(id){if(id!=='lesson'&&$('guide')){$('guide').hidden=true;document.querySelectorAll('.guide-target').forEach(function(el){el.classList.remove('guide-target')})}['start','lesson','result'].forEach(function(k){$(k).hidden=(k!==id)});window.scrollTo(0,0)}
   function reset(opt){
     S={opt:opt,tab:opt==='B'?'transcript':'notes',line:2,playing:false,cites:[],
        a:{scope:'all',q:''},
@@ -424,10 +440,60 @@ mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
     if(S.opt==='C'&&!S.c.triggered){S.c.triggered=true;S.tab='notes';mark('assistant-triggered');drawPanel()}
   });
 
+  // ---------- in-app guide ----------
+  var GUIDES={
+    A:[
+      {sel:'#qA',tab:'notes',title:'Tìm trong mọi ghi chú và slide',text:'Gõ vài chữ bạn còn nhớ. Kết quả lấy từ ghi chú của bạn và slide của khóa, chữ khớp được tô vàng.'},
+      {sel:'.panel',tab:'notes',title:'Mở lại đúng chỗ',text:'Mỗi ghi chú có nguồn màu xanh. Bấm vào nguồn để video nhảy tới đúng đoạn bạn đã ghi.'},
+      {sel:'#draft',title:'Đưa vào nháp Lab',text:'Bấm "Chèn vào nháp" ở kết quả để đưa ghi chú kèm nguồn vào đây, rồi tự viết câu của bạn. Chèn nhầm thì bấm Hoàn tác.'}
+    ],
+    B:[
+      {sel:'#panelBody',tab:'transcript',title:'Bấm vào câu trong transcript',text:'Bấm vào một câu (hoặc bôi đen một đoạn) đúng ý bạn cần giữ lại.'},
+      {sel:'#panelBody',tab:'transcript',title:'Chọn việc cần làm',text:'Thanh thao tác hiện ra: Thêm vào ghi chú, đánh dấu Chưa hiểu, hoặc Chèn thẳng vào nháp. Ghi chú tự gắn video và mốc thời gian.'},
+      {sel:'[data-tab="notes"]',title:'Ghi chú của bạn ở đây',text:'Trong tab Ghi chú, bạn viết thêm ý của mình và chèn vào nháp. AI chỉ gợi ý thẻ có viền đứt, bạn bấm thì thẻ mới được gắn.'}
+    ],
+    C:[
+      {sel:'#draft',title:'Bắt đầu viết là có trợ lý',text:'Bấm vào ô nháp Lab. Trợ lý sẽ gom những ghi chú có thể dùng cho phần bạn đang viết.'},
+      {sel:'.panel',title:'Xem gợi ý và lý do',text:'Mỗi gợi ý có "Vì sao gợi ý" và mức chắc chắn. Bấm vào nguồn để kiểm tra trước khi dùng.'},
+      {sel:'.panel',title:'Bạn quyết định',text:'Chèn vào nháp, Bỏ, Hoàn tác, hoặc Tắt gợi ý nếu thấy không cần. Trợ lý không tự chèn gì vào nháp của bạn.'}
+    ]
+  };
+  var G={i:0,on:false};
+  function clearTarget(){document.querySelectorAll('.guide-target').forEach(function(el){el.classList.remove('guide-target')})}
+  function placeGuide(){
+    var step=GUIDES[S.opt][G.i];
+    if(step.tab&&S.tab!==step.tab){S.tab=step.tab;drawPanel()}
+    clearTarget();
+    var el=document.querySelector(step.sel),g=$('guide');
+    $('gStep').textContent=(G.i+1)+'/'+GUIDES[S.opt].length;$('gTitle').textContent=step.title;$('gText').textContent=step.text;
+    $('gNext').textContent=G.i===GUIDES[S.opt].length-1?'Bắt đầu làm':'Tiếp';$('gBack').hidden=G.i===0;
+    g.hidden=false;
+    if(!el){g.style.left='16px';g.style.top=(window.scrollY+80)+'px';return}
+    el.classList.add('guide-target');
+    try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){el.scrollIntoView()}
+    setTimeout(function(){
+      var r=el.getBoundingClientRect(),gw=g.offsetWidth,gh=g.offsetHeight,vw=document.documentElement.clientWidth;
+      var top=r.bottom+10,left=r.left;
+      if(top+gh>window.innerHeight)top=Math.max(8,r.top-gh-10);
+      if(r.height>window.innerHeight*0.6){top=Math.max(8,r.top+12);left=r.left-gw-12;if(left<8)left=r.left+12}
+      left=Math.min(Math.max(8,left),vw-gw-8);
+      g.style.top=(top+window.scrollY)+'px';g.style.left=(left+window.scrollX)+'px';
+    },250);
+  }
+  function startGuide(){G.i=0;G.on=true;mark('guide-start');placeGuide();$('gNext').focus()}
+  function endGuide(how){G.on=false;$('guide').hidden=true;clearTarget();mark('guide-'+how)}
+  $('gNext').addEventListener('click',function(){if(G.i<GUIDES[S.opt].length-1){G.i++;placeGuide()}else endGuide('done')});
+  $('gBack').addEventListener('click',function(){if(G.i>0){G.i--;placeGuide()}});
+  $('gSkip').addEventListener('click',function(){endGuide('skip')});
+  $('guideBtn').addEventListener('click',startGuide);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&G.on)endGuide('esc')});
+  window.addEventListener('resize',function(){if(G.on)placeGuide()});
+
   function startOpt(opt){
     clearInterval(timer);reset(opt);
     $('optBadge').textContent='Phương án '+opt;
     show('lesson');drawVideo(false);drawCites();drawPanel();mark('open-option');
+    endGuide('reset');if($('guideOn').checked)setTimeout(startGuide,300);
   }
   function drawTicks(){['A','B','C'].forEach(function(k){var el=document.querySelector('[data-tick="'+k+'"]');if(el)el.textContent=tried[k]?'Đã thử':''})}
   $('doneBtn').addEventListener('click',function(){

@@ -14,6 +14,12 @@
 3. **Màn kết quả:** bấm "Xong phương án này" để xem nháp và nguồn đã gắn → **Thử phương án khác**, **Làm lại**, hoặc **Về màn đầu** (màn đầu đánh dấu phương án đã thử).
 4. **Bắt đầu lại** ở thanh trên cùng luôn đưa về màn đầu, xóa nháp.
 
+## Hướng dẫn trong app
+- Mỗi phương án có **hướng dẫn nhanh 3 bước**, hiện khi mở phương án. Mỗi bước có viền vàng chỉ vào đúng chỗ trên màn hình, kèm nút Tiếp / Quay lại / Bỏ qua (Esc để đóng).
+- Nút **Hướng dẫn** trên thanh trên cùng để xem lại bất cứ lúc nào.
+- Ở màn đầu có ô **"Hiện hướng dẫn nhanh khi mở mỗi phương án"** (mặc định bật).
+- **Khi test:** nhóm nên thống nhất bật hay tắt cho cả 3 tester và ghi lại trong Feedback Note. Tắt hướng dẫn thì quan sát được người dùng có tự khám phá ra cách dùng không. Bật thì kiểm tra hướng dẫn có đủ rõ không.
+
 ## Ghi chú kỹ thuật
 - HTML/CSS/JS thuần, không gọi model hay API thật. Transcript Video 01 ở B là dữ liệu mẫu (trừ câu 0:42 lấy từ phụ đề video thật); thẻ AI gợi ý ở B và gợi ý ở C đều viết sẵn.
 - Dữ liệu slide và ghi chú là dữ liệu mẫu, viết theo phong cách ghi chú của SV1.

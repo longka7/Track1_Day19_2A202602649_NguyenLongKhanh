@@ -151,6 +151,8 @@ Do not explain: vì sao trợ lý tự hiện; nghĩa của nhãn mức chắc c
 
 **Observation focus (5):** first action · hesitation · evidence read/ignored · correction/recovery · option được chọn và trade-off.
 
+**Hướng dẫn trong app:** prototype có hướng dẫn 3 bước cho mỗi option (bật/tắt ở màn đầu). Chọn một chế độ dùng chung cho cả 3 tester và ghi lại; nếu tắt thì quan sát "first action" và "help needed" rõ hơn.
+
 **Thứ tự option:** đổi thứ tự cho mỗi tester để giảm thiên lệch do thứ tự: Tester 1: A→B→C · Tester 2: B→C→A · Tester 3: C→A→B.
 
 **Luật facilitation:** tester tự thao tác; cùng một task; không giải thích icon; không lấp im lặng; không hỏi "Bạn có thích không?"; khi bị hỏi cách hoạt động thì hỏi lại "Theo bạn, nó nên hoạt động như thế nào?".
