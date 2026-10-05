@@ -111,8 +111,8 @@ Critical interaction: **từ lúc cần tìm ý đã học đến lúc chèn câ
 ## Chặng 4 — Micro-prototype
 
 - Link A/B/C: xem `prototype-link.md`. Mã nguồn: `prototype/index.html` (HTML/CSS/JS, phản hồi AI viết sẵn, không gọi model thật).
-- **Phần chung:** màn tình huống + nhiệm vụ, dữ liệu mẫu, ô "Nháp Lab · phần Change", nút "Xong phương án này", nút "Bắt đầu lại".
-- **Phần khác:** chỉ khung tương tác chính của mỗi option.
+- **Phần chung:** màn đầu (tình huống + nhiệm vụ + chọn option) → màn học video theo giao diện VLearn (menu bài học, video Video 01, ô "Nháp Lab · Chặng 1 · phần Change", panel Transcript/Ghi chú/Tài liệu) → màn kết quả (nháp + nguồn, thử option khác, về màn đầu); dữ liệu mẫu; nút "Bắt đầu lại".
+- **Phần khác:** chỉ tương tác trong panel phải: A tìm trong tab Ghi chú; B bôi đen trong tab Transcript; C trợ lý tự mở tab Ghi chú khi người học bấm vào ô nháp Lab.
 
 ### Annotation (không hiện cho tester)
 

@@ -4,11 +4,15 @@
   - Link đang ở chế độ riêng tư; cần bật chia sẻ (Share) trước khi gửi cho tester, giảng viên và TA.
 - **Mã nguồn:** `prototype/index.html`. Có thể mở trực tiếp bằng trình duyệt nếu không dùng link.
 
-## Cách dùng
-1. Mở link: màn đầu là tình huống và nhiệm vụ chung.
-2. Chọn tab **Phương án A / B / C**. Mỗi phương án bắt đầu lại từ cùng tình huống, nháp trống.
-3. Làm nhiệm vụ trong khung bên trái, viết câu vào **Nháp Lab · phần Change**, bấm **Xong phương án này**.
-4. **Bắt đầu lại** xóa nháp và đưa về phương án A.
+## Cách dùng (flow end-to-end)
+1. **Màn đầu:** đọc tình huống và nhiệm vụ, chọn **Phương án A / B / C**.
+2. **Màn học video** (giống giao diện VLearn): menu bài học, video "Video 01. Mở đầu" (bấm ▶ để chạy, bấm thanh tua để nhảy đoạn), ô **Nháp Lab · Chặng 1 · phần Change**, panel phải có tab **Transcript · Ghi chú · Tài liệu**.
+   - **A:** tab Ghi chú → chọn phạm vi (Video này / Tất cả ghi chú của khóa) → gõ từ khóa → bấm nguồn để mở lại đúng đoạn video, hoặc "Chèn nguồn vào nháp".
+   - **B:** tab Transcript → bôi đen hoặc bấm vào một câu → thanh thao tác: Thêm vào ghi chú · Chưa hiểu · Chèn vào nháp → ở tab Ghi chú: viết ý riêng, nhận/bỏ thẻ AI gợi ý, chèn vào nháp; có Hoàn tác, Xóa.
+   - **C:** khi người học bấm vào ô nháp Lab, trợ lý tự mở tab Ghi chú với 3 gợi ý (kèm "Vì sao gợi ý" và mức chắc chắn) → Chèn vào nháp / Bỏ / Hoàn tác / Tắt gợi ý (bật lại được).
+   - Ở mọi phương án: nguồn đã chèn hiện dưới ô nháp, bỏ được bằng "×".
+3. **Màn kết quả:** bấm "Xong phương án này" để xem nháp và nguồn đã gắn → **Thử phương án khác**, **Làm lại**, hoặc **Về màn đầu** (màn đầu đánh dấu phương án đã thử).
+4. **Bắt đầu lại** ở thanh trên cùng luôn đưa về màn đầu, xóa nháp.
 
 ## Ghi chú kỹ thuật
 - HTML/CSS/JS thuần, không gọi model hay API thật. Transcript Video 01 ở B là dữ liệu mẫu (trừ câu 0:42 lấy từ phụ đề video thật); thẻ AI gợi ý ở B và gợi ý ở C đều viết sẵn.
