@@ -28,16 +28,9 @@ Cả ba cùng giải một task: học viên đang làm Lab, cần tìm lại ý
 - **Màn thiết kế tĩnh (Claude Design):** https://claude.ai/artifact/Snx6wtgwPtrTs9PkPA7YvR
 
 ## 4. Đóng góp của tôi trong nhóm
-> Phần này phải do bạn tự viết (đề cấm AI viết hộ). Trả lời ngắn từng câu dưới đây bằng lời của bạn, rồi xóa các dòng gợi ý.
-> 1. Tôi chịu trách nhiệm chính option nào (A/B/C)? Tôi đã quyết định gì cho option đó?
-> 2. Tôi đã đóng góp gì vào phần chung (evidence từ phỏng vấn SV1/SV2, Hypothesis, shared context, dữ liệu mẫu, giao diện)?
-> 3. Tôi đã quyết định gì ở bảng Human–AI (ví dụ đổi hướng Option B)?
-> 4. Tôi facilitate phiên test với ai (mã tester), quan sát được gì nổi bật?
-> 5. Tôi tham gia tổng hợp feedback và chốt Next Change thế nào?
->
-> Dấu vết có thể dẫn chứng: lịch sử commit của repo này; Interview Record SV1/SV2 (Day 17, Chặng 3); [three-option-design-sheet.md](three-option-design-sheet.md); [ai-support-log.md](ai-support-log.md).
-
-[Tự viết]
+- **Phỏng vấn 1 và 2 (SV1, SV2):** tôi thực hiện hai cuộc phỏng vấn học viên ở Day 17. Đây là nguồn evidence của Practice Note 3, dùng để cập nhật Hypothesis Problem sang hướng "khó tìm lại và quay về nguồn" (Interview Record ở Chặng 3 Day 17).
+- **Chốt Option B:** tôi quyết định hướng cuối của Option B là "bôi đen để ghi chú tại nguồn", thay cho hai hướng trước đó ("hỏi trợ lý" và "tả ý, AI tìm ghi chú gần nghĩa").
+- **Cải thiện prototype:** tôi đề xuất và kiểm tra các vòng cải thiện prototype A/B/C, gồm chuyển sang giao diện học video giống VLearn, làm flow end-to-end và tăng độ dễ dùng.
 
 ## 5. Prototype Feedback
 > **Trạng thái:** Chưa test — phiên test của tôi chưa thực hiện được trong giờ lab do hết thời gian; sẽ bổ sung trước deadline. Prototype đã sẵn sàng để test (Gate 4), chưa có dữ liệu cho Gate 5.
