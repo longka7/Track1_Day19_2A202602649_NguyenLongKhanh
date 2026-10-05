@@ -16,20 +16,44 @@ Khi cần ôn tập hoặc dùng lại kiến thức đã học trong khóa onli
 Chi tiết ở [three-option-design-sheet.md](three-option-design-sheet.md).
 
 ## 3. Three Solution Options
-- **A — Gom note, gắn nguồn, tự tìm (không AI):** mọi ghi chú gom về một chỗ, mỗi cái có liên kết về slide/mốc video; người học tìm trên cả slide và ghi chú.
-- **B — Bôi đen để ghi chú tại nguồn:** người học bôi đen một đoạn trong transcript/slide rồi chọn Thêm vào ghi chú · Đánh dấu "Chưa hiểu" · Chèn vào bài Lab kèm nguồn; ghi chú tự gắn video và mốc thời gian; AI chỉ gợi ý thẻ, người học quyết định.
-- **C — Trợ lý chủ động gom:** khi mở phần Lab, AI chọn sẵn ghi chú liên quan kèm lý do và mức chắc chắn; người học giữ/bỏ, hoàn tác hoặc tắt.
+Cả ba cùng giải một task: học viên đang làm Lab, cần tìm lại ý "làm rất tốt một thứ không ai cần", biết nó đến từ đâu, rồi viết một câu có dẫn nguồn vào bài Lab. Ba option khác nhau ở **ai làm phần việc nào** (user tự làm → user + AI → AI khởi động, user duyệt).
 
-Prototype: [prototype-link.md](prototype-link.md)
+| | A — Gom ghi chú, gắn nguồn, tự tìm | B — Bôi đen để ghi chú tại nguồn | C — Trợ lý chủ động gom |
+|---|---|---|---|
+| Cơ chế | Ghi chú của cả khóa gom về tab Ghi chú, mỗi cái gắn video/mốc thời gian/slide; tìm từ khóa trên ghi chú và slide | Bôi đen (hoặc bấm) một câu trong Transcript → Thêm vào ghi chú · Chưa hiểu · Chèn vào bài Lab; ghi chú tự gắn nguồn | Khi học viên bấm vào ô bài Lab, trợ lý gom ghi chú liên quan kèm "Vì sao gợi ý" và mức chắc chắn |
+| Vai trò AI | Không có | Chỉ gợi ý thẻ, học viên bấm mới gắn | Chọn ghi chú và giải thích; không tự chèn |
+| Kiểm soát / khôi phục | Đổi từ khóa, mở nguồn, Hoàn tác, bỏ nguồn "×" | Bỏ chọn, Hoàn tác, Xóa, bỏ thẻ | Bỏ, Hoàn tác, Tắt gợi ý (bật lại được) |
+
+- **Prototype A/B/C (link chung của nhóm):** https://claude.ai/artifact/Uksm7P8XQ8hNXCuP8mv25H · cách dùng ở [prototype-link.md](prototype-link.md)
+- **Màn thiết kế tĩnh (Claude Design):** https://claude.ai/artifact/Snx6wtgwPtrTs9PkPA7YvR
 
 ## 4. Đóng góp của tôi trong nhóm
-[Tự viết cụ thể: option bạn phụ trách (A/B/C), phần shared context/content, Human–AI decisions, facilitation, observation, tổng hợp feedback…]
+> Phần này phải do bạn tự viết (đề cấm AI viết hộ). Trả lời ngắn từng câu dưới đây bằng lời của bạn, rồi xóa các dòng gợi ý.
+> 1. Tôi chịu trách nhiệm chính option nào (A/B/C)? Tôi đã quyết định gì cho option đó?
+> 2. Tôi đã đóng góp gì vào phần chung (evidence từ phỏng vấn SV1/SV2, Hypothesis, shared context, dữ liệu mẫu, giao diện)?
+> 3. Tôi đã quyết định gì ở bảng Human–AI (ví dụ đổi hướng Option B)?
+> 4. Tôi facilitate phiên test với ai (mã tester), quan sát được gì nổi bật?
+> 5. Tôi tham gia tổng hợp feedback và chốt Next Change thế nào?
+>
+> Dấu vết có thể dẫn chứng: lịch sử commit của repo này; Interview Record SV1/SV2 (Day 17, Chặng 3); [three-option-design-sheet.md](three-option-design-sheet.md); [ai-support-log.md](ai-support-log.md).
+
+[Tự viết]
 
 ## 5. Prototype Feedback
-- Feedback Note của phiên tôi facilitate: [prototype-feedback-note.md](prototype-feedback-note.md)
-- Tổng hợp ba feedback: [group-feedback-synthesis.md](group-feedback-synthesis.md)
-- **Next Change:** [điền sau khi tổng hợp]
+- **Feedback Note phiên tôi facilitate:** [prototype-feedback-note.md](prototype-feedback-note.md)
+- **Tổng hợp ba feedback của nhóm:** [group-feedback-synthesis.md](group-feedback-synthesis.md)
+- **Observation nổi bật từ phiên của tôi:** [điền sau khi test]
+- **Next Change nhóm chốt:** [điền sau khi tổng hợp]
 - **Still Unproven:** [điền sau khi tổng hợp]
 
 ## 6. AI Support Log
-[ai-support-log.md](ai-support-log.md)
+Chi tiết ở [ai-support-log.md](ai-support-log.md). Tóm tắt: AI hỗ trợ chép ghi âm phỏng vấn, soạn bản nháp design sheet và bảng Human–AI, viết code prototype và dữ liệu mẫu, chuẩn bị kịch bản test. AI không tạo quote, observation hay feedback của tester và không viết phần đóng góp/reflection cá nhân.
+
+## Checklist trước khi nộp
+- [x] Repo đúng tên `Track1_Day19_2A202602649_NguyenLongKhanh` (xác nhận với giảng viên/TA nếu đề ghi Day18)
+- [x] Design sheet đủ Chặng 1–5; ba prototype cùng user, situation, task, content và desired outcome
+- [x] Link prototype mở được ("Anyone with the link")
+- [ ] Đã test cả A/B/C với 1 tester ngoài nhóm và điền [prototype-feedback-note.md](prototype-feedback-note.md)
+- [ ] Nhóm đủ 3 Feedback Notes, đã điền [group-feedback-synthesis.md](group-feedback-synthesis.md) (pattern, Next Change, Still Unproven)
+- [ ] Tự viết mục 4 "Đóng góp của tôi" và mục 3–4 trong AI Support Log
+- [ ] Repo để private và đã mời giảng viên/TA; các link mở được với giảng viên/TA
