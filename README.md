@@ -50,5 +50,6 @@ Chi tiết ở [ai-support-log.md](ai-support-log.md). Tóm tắt: AI hỗ trợ
 - [x] Link prototype mở được ("Anyone with the link")
 - [ ] (Bổ sung trước deadline) Đã test cả A/B/C với 1 tester ngoài nhóm và điền [prototype-feedback-note.md](prototype-feedback-note.md)
 - [ ] Nhóm đủ 3 Feedback Notes, đã điền [group-feedback-synthesis.md](group-feedback-synthesis.md) (pattern, Next Change, Still Unproven)
-- [ ] Tự viết mục 4 "Đóng góp của tôi" và mục 3–4 trong AI Support Log
+- [x] Mục 4 "Đóng góp của tôi" (viết từ ý của tôi — kiểm tra lại câu chữ)
+- [ ] Tự viết mục 3–4 trong AI Support Log
 - [ ] Repo để private và đã mời giảng viên/TA; các link mở được với giảng viên/TA
