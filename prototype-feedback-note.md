@@ -1,5 +1,7 @@
 # Prototype Feedback Note
 
+> **Trạng thái:** Chưa test — phiên test với tester ngoài nhóm chưa thực hiện được trong giờ lab do hết thời gian. Sẽ bổ sung Feedback Note trước deadline theo hướng dẫn "Sau lớp — hoàn tất test nếu cần" của đề.
+
 > Điền trong và ngay sau phiên **do chính bạn facilitate**. Chỉ ghi điều tester thật sự làm hoặc nói. Không dùng AI để viết phần quan sát.
 
 ## Thông tin phiên

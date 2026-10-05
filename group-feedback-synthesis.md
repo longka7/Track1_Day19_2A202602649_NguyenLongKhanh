@@ -1,5 +1,7 @@
 # Group Feedback Synthesis · Nhóm 3aecaykhe
 
+> **Trạng thái:** Chưa đủ ba Feedback Notes. Nhóm sẽ hoàn tất test ngoài giờ và tổng hợp trước deadline; chưa có Next Change và chưa rút ra kết luận nào từ test.
+
 > Điền sau khi đủ ba Feedback Notes từ ba tester ngoài nhóm. Không kết luận "solution đã validated".
 
 | Feedback | Facilitator | Tester (mã) | Thứ tự option | Hướng dẫn trong app |

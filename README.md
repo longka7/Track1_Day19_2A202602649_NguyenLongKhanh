@@ -40,6 +40,8 @@ Cả ba cùng giải một task: học viên đang làm Lab, cần tìm lại ý
 [Tự viết]
 
 ## 5. Prototype Feedback
+> **Trạng thái:** Chưa test — phiên test của tôi chưa thực hiện được trong giờ lab do hết thời gian; sẽ bổ sung trước deadline. Prototype đã sẵn sàng để test (Gate 4), chưa có dữ liệu cho Gate 5.
+
 - **Feedback Note phiên tôi facilitate:** [prototype-feedback-note.md](prototype-feedback-note.md)
 - **Tổng hợp ba feedback của nhóm:** [group-feedback-synthesis.md](group-feedback-synthesis.md)
 - **Observation nổi bật từ phiên của tôi:** [điền sau khi test]
@@ -53,7 +55,7 @@ Chi tiết ở [ai-support-log.md](ai-support-log.md). Tóm tắt: AI hỗ trợ
 - [x] Repo đúng tên `Track1_Day19_2A202602649_NguyenLongKhanh` (xác nhận với giảng viên/TA nếu đề ghi Day18)
 - [x] Design sheet đủ Chặng 1–5; ba prototype cùng user, situation, task, content và desired outcome
 - [x] Link prototype mở được ("Anyone with the link")
-- [ ] Đã test cả A/B/C với 1 tester ngoài nhóm và điền [prototype-feedback-note.md](prototype-feedback-note.md)
+- [ ] (Bổ sung trước deadline) Đã test cả A/B/C với 1 tester ngoài nhóm và điền [prototype-feedback-note.md](prototype-feedback-note.md)
 - [ ] Nhóm đủ 3 Feedback Notes, đã điền [group-feedback-synthesis.md](group-feedback-synthesis.md) (pattern, Next Change, Still Unproven)
 - [ ] Tự viết mục 4 "Đóng góp của tôi" và mục 3–4 trong AI Support Log
 - [ ] Repo để private và đã mời giảng viên/TA; các link mở được với giảng viên/TA
