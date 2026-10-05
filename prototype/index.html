@@ -97,6 +97,13 @@ textarea{resize:vertical}
 .toolbar button.main{background:#1D4ED8;color:#fff}
 .toast{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:var(--toast);color:var(--toast-ink);font-size:13px}
 .toast button{border:0;background:transparent;color:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+.tline:hover{background:var(--brand-soft)}
+.tline.sel:hover{background:var(--sel)}
+mark{background:var(--note-mark);color:inherit;border-radius:3px;padding:0 1px}
+.flashdraft{animation:fd 1s ease-out}
+@keyframes fd{from{box-shadow:0 0 0 3px #F59E0B}to{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.flashdraft{animation:none}}
+.hint{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;padding:8px 10px;border-radius:8px;background:var(--brand-soft)}
 .banner{background:var(--brand-soft);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 </style>
 
@@ -166,6 +173,8 @@ textarea{resize:vertical}
         <label for="draft" style="font-weight:600">Nháp Lab · Chặng 1 · phần Change</label>
         <textarea id="draft" rows="4" placeholder="Viết câu của bạn ở đây…"></textarea>
         <div class="row" id="cites" aria-label="Nguồn đã chèn"></div>
+        <div id="draftToast" class="toast" hidden aria-live="polite"><span id="draftToastMsg">Đã chèn vào nháp</span><button type="button" id="undoInsert">Hoàn tác</button></div>
+        <button type="button" id="cPill" class="hint" hidden style="border:0;cursor:pointer;text-align:left;color:inherit;width:100%"><b>Trợ lý có 3 gợi ý cho phần Change</b><span style="margin-left:auto;color:var(--link);font-weight:600">Xem ở tab Ghi chú →</span></button>
         <div class="row" style="justify-content:flex-end"><button class="btn primary" type="button" id="doneBtn">Xong phương án này</button></div>
       </main>
 
@@ -227,7 +236,8 @@ textarea{resize:vertical}
        a:{scope:'all',q:''},
        b:{sel:null,notes:[],undo:null,undoUnclear:false},
        c:{triggered:false,state:C_SUG.map(function(){return 'open'}),undo:null,off:false}};
-    $('draft').value='';
+    $('draft').value='';lastInsert=null;
+    if($('draftToast'))$('draftToast').hidden=true;
   }
 
   // ---------- video ----------
@@ -248,9 +258,14 @@ textarea{resize:vertical}
   });
 
   // ---------- draft + cites ----------
+  var lastInsert=null,toastTimer=null;
   function insert(text,src){
-    var d=$('draft');if(text)d.value=(d.value.trim()?d.value.replace(/\s*$/,'')+'\n':'')+text;
+    var d=$('draft');lastInsert={value:d.value,cites:S.cites.slice()};
+    if(text)d.value=(d.value.trim()?d.value.replace(/\s*$/,'')+'\n':'')+text;
     if(src&&S.cites.indexOf(src)<0)S.cites.push(src);drawCites();mark('insert:'+(src||'-'));
+    d.classList.remove('flashdraft');void d.offsetWidth;d.classList.add('flashdraft');
+    $('draftToastMsg').textContent=text?'Đã chèn vào nháp'+(src?' kèm nguồn':''):'Đã chèn nguồn vào nháp';
+    $('draftToast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){$('draftToast').hidden=true},6000);
   }
   function drawCites(){
     var h='';if(S.cites.length)h+='<span class="muted" style="font-size:12px">Nguồn đã chèn:</span>';
@@ -263,6 +278,8 @@ textarea{resize:vertical}
   function noteCard(n,extra){return '<div class="card note">'+srcBtn(n)+'<p>'+esc(n.text)+'</p><div data-pv="'+n.id+'"></div>'+(extra||'')+'</div>'}
   function drawPanel(){
     document.querySelectorAll('.tab').forEach(function(t){t.setAttribute('aria-selected',t.getAttribute('data-tab')===S.tab?'true':'false')});
+    var cnt=S.opt==='B'?S.b.notes.length:BASE_NOTES.length;document.querySelector('[data-tab="notes"]').textContent='Ghi chú ('+cnt+')';
+    $('cPill').hidden=!(S.opt==='C'&&S.c.triggered&&!S.c.off&&S.tab!=='notes');
     var h='';
     if(S.tab==='docs'){
       h='<a class="card" href="#" data-noop="1" style="color:inherit;text-decoration:none">Slide bài giảng – Product Discovery <span class="muted mono">PDF</span></a><a class="card" href="#" data-noop="1" style="color:inherit;text-decoration:none">bad-good-interviews <span class="muted mono">PDF</span></a>';
@@ -275,7 +292,7 @@ textarea{resize:vertical}
     var q=$('qA');if(q){q.value=S.a.q}
   }
   function transcriptHTML(){
-    var b=S.b,h='<span class="muted" style="font-size:12px">Video 01. Mở đầu'+(S.opt==='B'?' · bôi đen hoặc bấm vào một câu để ghi chú':' · bấm vào câu để tua tới đó')+'</span>';
+    var b=S.b,h=S.opt==='B'?'<div class="hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg><span>Bấm vào một câu (hoặc bôi đen) để <b>ghi chú</b>, đánh dấu <b>chưa hiểu</b> hoặc <b>chèn vào nháp</b>.</span></div>':'<span class="muted" style="font-size:12px">Video 01. Mở đầu · bấm vào câu để tua tới đó</span>';
     LINES.forEach(function(l,i){
       var cls='tline'+(i===S.line?' now':'');
       if(S.opt==='B'){var mk=b.notes.filter(function(n){return n.line===i});if(mk.some(function(n){return n.unclear}))cls+=' uc';else if(mk.length)cls+=' mk';if(b.sel&&b.sel.line===i)cls+=' sel'}
@@ -290,17 +307,22 @@ textarea{resize:vertical}
   // A: search across all notes + slides
   function notesA(){
     var a=S.a;
-    return '<div class="row"><button type="button" class="chip'+(a.scope==='video'?'':' sug')+'" data-scope="video" style="cursor:pointer">Video này</button><button type="button" class="chip'+(a.scope==='all'?'':' sug')+'" data-scope="all" style="cursor:pointer">Tất cả ghi chú của khóa</button></div>'+
-      '<label for="qA" style="font-size:12px" class="muted">Tìm theo từ khóa trong ghi chú và slide</label><input id="qA" type="search" placeholder="Gõ từ khóa bạn nhớ…" autocomplete="off"><div id="resA" style="display:flex;flex-direction:column;gap:8px">'+resultsA()+'</div>';
+    return '<div class="row"><button type="button" class="chip'+(a.scope==='video'?'':' sug')+'" data-scope="video" aria-pressed="'+(a.scope==='video')+'" style="cursor:pointer">Video này</button><button type="button" class="chip'+(a.scope==='all'?'':' sug')+'" data-scope="all" aria-pressed="'+(a.scope==='all')+'" style="cursor:pointer">Tất cả ghi chú của khóa</button></div>'+
+      '<label for="qA" style="font-size:12px" class="muted">Tìm theo từ khóa trong ghi chú và slide (gõ vài chữ bạn nhớ)</label><input id="qA" type="search" placeholder="Gõ từ khóa bạn nhớ…" autocomplete="off"><div id="resA" style="display:flex;flex-direction:column;gap:8px">'+resultsA()+'</div>';
   }
   function resultsA(){
     var a=S.a,k=norm(a.q).trim(),words=k.split(/\s+/).filter(function(w){return w.length>1});
-    function hit(t){if(!words.length)return true;var n=norm(t);return words.some(function(w){return n.indexOf(w)>-1})}
-    var ns=BASE_NOTES.filter(function(n){return (a.scope==='all'||n.video)&&hit(n.text)});
-    var ss=words.length?SLIDES.filter(function(s){return (a.scope==='all'||s.video)&&hit(s.text)}):[];
+    function wordsIn(t){return (' '+norm(t).replace(/[^a-z0-9]+/g,' ')+' ')}
+    function score(t){var n=wordsIn(t);return words.filter(function(w){return n.indexOf(' '+w+' ')>-1}).length}
+    var need=words.length>=2?2:1;
+    function hit(t){return !words.length||score(t)>=need}
+    function byScore(x,y){return score(y.text)-score(x.text)}
+    var ns=BASE_NOTES.filter(function(n){return (a.scope==='all'||n.video)&&hit(n.text)}).sort(byScore);
+    function hl(t){var out=esc(t);if(!words.length)return out;var raw=t,nr=norm(raw),marks=[];words.forEach(function(w){var i=nr.indexOf(w);while(i>-1){var pre=i===0?' ':nr.charAt(i-1),post=nr.charAt(i+w.length)||' ';if(!/[a-z0-9]/.test(pre)&&!/[a-z0-9]/.test(post))marks.push([i,i+w.length]);i=nr.indexOf(w,i+w.length)}});if(!marks.length)return out;marks.sort(function(x,y){return x[0]-y[0]});var r='',pos=0;marks.forEach(function(m){if(m[0]<pos)return;r+=esc(raw.slice(pos,m[0]))+'<mark>'+esc(raw.slice(m[0],m[1]))+'</mark>';pos=m[1]});return r+esc(raw.slice(pos))}
+    var ss=words.length?SLIDES.filter(function(s){return (a.scope==='all'||s.video)&&hit(s.text)}).sort(byScore):[];
     var h='<span class="label">GHI CHÚ CỦA BẠN ('+ns.length+')</span>';
-    ns.forEach(function(n){h+=noteCard(n,n.src?'<button type="button" class="btn" data-ins-note="'+n.id+'" style="align-self:flex-start">Chèn nguồn vào nháp</button>':'')});
-    if(words.length){h+='<span class="label">SLIDE ('+ss.length+')</span>';ss.forEach(function(s){h+='<div class="card">'+(s.video?'<button type="button" class="src" data-seek="'+s.line+'">'+esc(s.src)+'</button>':'<span class="mono muted">'+esc(s.src)+'</span>')+'<p>'+esc(s.text)+'</p><button type="button" class="btn" data-ins-slide="'+SLIDES.indexOf(s)+'" style="align-self:flex-start">Chèn nguồn vào nháp</button></div>'})}
+    ns.forEach(function(n){h+='<div class="card note">'+srcBtn(n)+'<p>'+hl(n.text)+'</p><div data-pv="'+n.id+'"></div><button type="button" class="btn" data-ins-note="'+n.id+'" style="align-self:flex-start">Chèn vào nháp</button></div>'});
+    if(words.length){h+='<span class="label">SLIDE ('+ss.length+')</span>';ss.forEach(function(s){h+='<div class="card">'+(s.video?'<button type="button" class="src" data-seek="'+s.line+'">'+esc(s.src)+'</button>':'<span class="mono muted">'+esc(s.src)+'</span>')+'<p>'+hl(s.text)+'</p><button type="button" class="btn" data-ins-slide="'+SLIDES.indexOf(s)+'" style="align-self:flex-start">Chèn vào nháp</button></div>'})}
     if(words.length&&!ns.length&&!ss.length)h+='<p class="muted">Không có kết quả khớp. Thử từ khác.</p>';
     h+='<p class="muted" style="font-size:12px">Mỗi ghi chú tự gắn với video/slide lúc bạn ghi. Bấm vào nguồn để mở lại đúng chỗ.</p>';
     return h;
@@ -355,8 +377,8 @@ textarea{resize:vertical}
     if(g('data-uncite')!==null){S.cites.splice(+g('data-uncite'),1);drawCites();mark('uncite');return}
     // A
     if(g('data-scope')){S.a.scope=g('data-scope');mark('scope:'+S.a.scope);drawPanel();return}
-    if(g('data-ins-note')){insert('',byId(g('data-ins-note')).src);return}
-    if(g('data-ins-slide')!==null){insert('',SLIDES[+g('data-ins-slide')].src);return}
+    if(g('data-ins-note')){var na=byId(g('data-ins-note'));insert(na.text,na.src);return}
+    if(g('data-ins-slide')!==null){var sa=SLIDES[+g('data-ins-slide')];insert('"'+sa.text+'"',sa.src);return}
     // transcript line
     if(g('data-line')!==null){
       var li=+g('data-line');
@@ -394,6 +416,9 @@ textarea{resize:vertical}
     if(e.target.id==='qA'){S.a.q=e.target.value;$('resA').innerHTML=resultsA();mark('search:'+S.a.q)}
     var cm=e.target.getAttribute?e.target.getAttribute('data-cm'):null;if(cm!==null){S.b.notes[+cm].comment=e.target.value}
   });
+  $('undoInsert').addEventListener('click',function(){if(!lastInsert)return;$('draft').value=lastInsert.value;S.cites=lastInsert.cites;lastInsert=null;drawCites();$('draftToast').hidden=true;mark('undo-insert')});
+  $('cPill').addEventListener('click',function(){S.tab='notes';mark('open-suggestions');drawPanel()});
+  document.addEventListener('keydown',function(e){if(e.target.id==='qA'&&e.key==='Enter'){e.preventDefault();var f=document.querySelector('#resA [data-ins-note],#resA [data-ins-slide]');if(f)f.focus()}});
   // C trigger: learner starts working on the Lab draft
   $('draft').addEventListener('focus',function(){
     if(S.opt==='C'&&!S.c.triggered){S.c.triggered=true;S.tab='notes';mark('assistant-triggered');drawPanel()}

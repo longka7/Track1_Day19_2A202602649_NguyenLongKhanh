@@ -114,6 +114,12 @@ Critical interaction: **từ lúc cần tìm ý đã học đến lúc chèn câ
 - **Phần chung:** màn đầu (tình huống + nhiệm vụ + chọn option) → màn học video theo giao diện VLearn (menu bài học, video Video 01, ô "Nháp Lab · Chặng 1 · phần Change", panel Transcript/Ghi chú/Tài liệu) → màn kết quả (nháp + nguồn, thử option khác, về màn đầu); dữ liệu mẫu; nút "Bắt đầu lại".
 - **Phần khác:** chỉ tương tác trong panel phải: A tìm trong tab Ghi chú; B bôi đen trong tab Transcript; C trợ lý tự mở tab Ghi chú khi người học bấm vào ô nháp Lab.
 
+### Cải tiến cho dễ dùng (áp dụng đều cho A/B/C)
+- **Chung:** sau mỗi lần chèn, ô nháp nháy viền và hiện "Đã chèn vào nháp · Hoàn tác" (khôi phục cả nội dung lẫn nguồn); tab hiện số ghi chú "Ghi chú (n)"; câu trong transcript sáng lên khi rê chuột; nguồn bỏ được bằng "×".
+- **A:** nút "Chèn vào nháp" chèn cả nội dung ghi chú lẫn nguồn; từ khóa khớp được tô màu; truy vấn nhiều từ phải khớp ít nhất 2 từ và kết quả xếp theo độ khớp; Enter nhảy tới kết quả đầu tiên. Không thêm gợi ý từ khóa để tránh mớm câu trả lời cho tester.
+- **B:** dòng hướng dẫn ngắn đầu transcript ("Bấm vào một câu (hoặc bôi đen) để ghi chú, đánh dấu chưa hiểu hoặc chèn vào nháp"); thông báo sau khi thêm có nút "Xem".
+- **C:** khi trợ lý có gợi ý mà người học đang ở tab khác, một dòng nhắc hiện ngay dưới ô nháp và mở tab Ghi chú khi bấm.
+
 ### Annotation (không hiện cho tester)
 
 ```
