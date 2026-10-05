@@ -112,7 +112,8 @@ ul.clean{margin:0;padding-left:18px}
     {id:'D15-S07',src:'Day 15 · Problem framing · slide 7',text:'Problem statement không chứa tên tính năng. Viết về user, situation và barrier.'},
     {id:'D16-S12',src:'Day 16 · Product teardown · slide 12',text:'Teardown để tìm nguyên lý, không để copy feature. "Feature factory": đo thành công bằng số tính năng giao.'},
     {id:'D17-S04',src:'Day 17 · Video 01 · 0:42 · slide 4',text:'Làm rất tốt một thứ không ai cần: tính năng xong, đúng hạn, nhưng chỉ số không nhích và gần như chẳng ai dùng.'},
-    {id:'D17-S19',src:'Day 17 · Video 08 · slide 19',text:'Hỏi về hành vi trong quá khứ. Không hỏi "Bạn có thích không?".'}
+    {id:'D17-S19',src:'Day 17 · Video 08 · slide 19',text:'Hỏi về hành vi trong quá khứ. Không hỏi "Bạn có thích không?".'},
+    {id:'D17-S05',src:'Day 17 · Video 01 · 0:50 · slide 5',text:'Discovery: kiểm tra vấn đề có thật trước khi build.'}
   ];
   var NOTES=[
     {id:'N1',anchor:'D17-S04',src:'Day 17 · Video 01 · 0:42',text:'build trap = làm đúng spec, đúng hạn nhưng metric ko nhích → ko ai cần'},
@@ -171,49 +172,83 @@ ul.clean{margin:0;padding-left:18px}
     });
   }
 
-  // ---------- Option B: user describes the idea in own words; AI ranks notes by meaning, shows them verbatim with source ----------
-  // Canned "semantic" match: each note has a set of related concepts (stands in for an embedding model).
-  var CONCEPTS={
-    N1:['khong ai can','khong ai dung','ko ai can','chang ai dung','dung han','dung spec','tinh nang','metric','chi so','khong nhich','that bai','vo ich','thua','build trap','lam tot','lam xong'],
-    N2:['problem','van de','giai phap','solution','tinh nang','tach','problem statement','dung viet'],
-    N3:['teardown','nguyen ly','copy','san pham','tinh nang','bat chuoc','feature factory'],
-    N4:['phong van','hoi','qua khu','thich','mom test','nguoi dung','cau hoi'],
-    N5:['jtbd','job','muon','outcome','situation','ket qua']
-  };
-  function scoreNote(desc,id){
-    var d=norm(desc),sc=0;
-    CONCEPTS[id].forEach(function(c){ if(d.indexOf(c)>-1) sc+=c.split(' ').length; else c.split(' ').forEach(function(w){ if(w.length>2 && (' '+d+' ').indexOf(' '+w+' ')>-1) sc+=0.3; }); });
-    return sc;
-  }
+  // ---------- Option B: highlight a passage in the transcript -> action bar (add to note / mark "Chưa hiểu" / insert with source); AI only suggests tags ----------
+  var TRANSCRIPT=[
+    {t:'0:30',slide:'D17-S04',text:'Nhiều nhóm sản phẩm giao tính năng rất đúng hạn.'},
+    {t:'0:36',slide:'D17-S04',text:'Làm rất tốt một thứ không ai cần.'},
+    {t:'0:42',slide:'D17-S04',text:'Rồi chỉ số không nhích, và gần như chẳng ai dùng.'},
+    {t:'0:50',slide:'D17-S05',text:'Discovery giúp mình kiểm tra điều đó trước khi build.'}
+  ];
+  var TAGS={'0:30':['output vs outcome'],'0:36':['build trap','output vs outcome'],'0:42':['build trap','metric'],'0:50':['discovery']};
   function renderB(){
-    stage.innerHTML=
-      '<h2>Tả lại ý bạn nhớ</h2>'+
-      '<p class="muted" style="font-size:13px">Viết theo cách bạn nhớ, không cần đúng từ khóa. Trợ lý tìm trong ghi chú của bạn những ghi chú có ý nghĩa gần nhất. Nó không viết lại hay tóm tắt ghi chú.</p>'+
-      '<form id="formB" style="display:flex;flex-direction:column;gap:8px"><label for="qB" class="muted" style="font-size:13px">Ý bạn nhớ</label><textarea id="qB" rows="3" placeholder="Ví dụ: cái ý làm xong tính năng mà rốt cuộc chẳng ai dùng…"></textarea><div class="row"><button class="btn primary" type="submit">Tìm ghi chú gần nhất</button></div></form>'+
-      '<div id="resB" style="display:flex;flex-direction:column;gap:10px"></div>';
-    var form=document.getElementById('formB'),q=document.getElementById('qB'),res=document.getElementById('resB');
-    form.addEventListener('submit',function(e){
-      e.preventDefault();var t=q.value.trim();if(t.length<4){res.innerHTML='<p class="muted">Bạn tả thêm một chút để trợ lý tìm được.</p>';return}
-      mark('describe:'+t);
-      var ranked=NOTES.map(function(n){return {n:n,s:scoreNote(t,n.id)}}).filter(function(x){return x.s>0}).sort(function(a,b){return b.s-a.s}).slice(0,3);
-      if(!ranked.length){res.innerHTML='<p>Chưa tìm thấy ghi chú nào gần với ý bạn tả.</p><p class="muted" style="font-size:13px">Thử tả bằng một ví dụ hoặc tình huống bạn nhớ, hoặc dùng tìm từ khóa ở phương án A.</p>';mark('no-match');return}
-      var top=ranked[0].s,h='<h3>Ghi chú gần nhất với ý bạn tả</h3><p class="muted" style="font-size:13px">Nội dung bên dưới là nguyên văn ghi chú của bạn.</p>';
-      ranked.forEach(function(x){
-        var n=x.n,lvl=x.s>=top*0.8&&x.s>=2?'<span class="chip">Gần nhất</span>':'<span class="chip low">Có thể liên quan</span>';
-        var s=n.anchor?byId(SLIDES,n.anchor):null;
-        h+='<div class="note"><div class="row" style="justify-content:space-between"><span class="who">'+esc(n.src)+'</span>'+lvl+'</div>'+
-           '<p>'+esc(n.text)+'</p>'+
-           '<div class="row">'+(s?'<button class="btn ghost" type="button" data-open="'+n.anchor+'">Mở slide gốc</button><button class="btn" type="button" data-pickb="'+n.id+'">Dùng ghi chú này</button>':'<span class="chip low">Ghi chú này chưa gắn nguồn</span><button class="btn" type="button" data-pickb="'+n.id+'">Dùng ghi chú này</button>')+'</div><div data-slot></div></div>';
+    var sel=null,notes=[],lastAdded=null;
+    function src(line){return 'Day 17 · Video 01. Mở đầu · '+line.t}
+    function draw(){
+      var h='<h2>Transcript · Video 01. Mở đầu</h2>'+
+        '<p class="muted" style="font-size:13px">Bôi đen một đoạn (hoặc bấm vào một câu) để thêm vào ghi chú. Ghi chú tự gắn với video và mốc thời gian.</p>'+
+        '<div id="trB" style="display:flex;flex-direction:column;gap:2px;user-select:text">';
+      TRANSCRIPT.forEach(function(l,i){
+        var marked=notes.some(function(n){return n.line===i});
+        var unclear=notes.some(function(n){return n.line===i&&n.unclear});
+        var bg=unclear?'background:var(--warn-soft);':marked?'background:var(--note);':'';
+        h+='<div data-line="'+i+'" style="display:flex;gap:10px;padding:6px 8px;border-radius:8px;cursor:text;'+bg+(sel&&sel.line===i?'outline:2px solid var(--accent);':'')+'"><span class="mono muted" style="flex:0 0 36px">'+l.t+'</span><span data-text="'+i+'">'+esc(l.text)+'</span></div>';
       });
-      h+='<div class="row"><button class="btn ghost" type="button" data-none="1">Không có ghi chú nào đúng ý mình</button></div>';
-      res.innerHTML=h;mark('results:'+ranked.map(function(x){return x.n.id}).join(','));
-    });
-    res.addEventListener('click',function(e){
-      var o=e.target.getAttribute('data-open'),p=e.target.getAttribute('data-pickb');
+      h+='</div>';
+      if(sel){
+        h+='<div class="preview" role="toolbar" aria-label="Thao tác với đoạn đã chọn"><span class="mono muted">ĐÃ CHỌN · '+esc(TRANSCRIPT[sel.line].t)+'</span><p>"'+esc(sel.text)+'"</p>'+
+          '<div class="row"><button class="btn primary" type="button" data-act="note">Thêm vào ghi chú</button><button class="btn" type="button" data-act="unclear">Đánh dấu "Chưa hiểu"</button><button class="btn" type="button" data-act="insert">Chèn vào nháp kèm nguồn</button><button class="btn ghost" type="button" data-act="cancel">Bỏ chọn</button></div></div>';
+      }
+      if(lastAdded!==null){
+        h+='<div class="row toast" style="justify-content:space-between"><span>Đã thêm vào ghi chú.</span><button class="btn ghost" type="button" data-act="undo">Hoàn tác</button></div>';
+      }
+      h+='<h3>Ghi chú của bạn ('+notes.length+')</h3>';
+      if(!notes.length)h+='<p class="muted" style="font-size:13px">Chưa có ghi chú nào trong video này.</p>';
+      notes.forEach(function(n,i){
+        var l=TRANSCRIPT[n.line];
+        h+='<div class="note"><div class="row" style="justify-content:space-between"><span class="who">'+esc(src(l))+'</span>'+(n.unclear?'<span class="chip low">Chưa hiểu</span>':'')+'</div>'+
+          '<p>"'+esc(n.text)+'"</p>'+
+          '<label class="muted" style="font-size:12px" for="cm'+i+'">Ý của bạn (không bắt buộc)</label><input type="text" id="cm'+i+'" data-cm="'+i+'" value="'+esc(n.comment)+'" placeholder="Viết thêm theo cách hiểu của bạn…">'+
+          '<div class="row" style="gap:6px"><span class="muted" style="font-size:12px">Thẻ:</span>';
+        n.tags.forEach(function(t,j){h+='<span class="chip">'+esc(t)+' <button type="button" class="btn ghost" style="min-height:24px;padding:0 4px" aria-label="Bỏ thẻ '+esc(t)+'" data-untag="'+i+':'+j+'">×</button></span>'});
+        n.sug.forEach(function(t,j){h+='<button type="button" class="chip" style="border:1px dashed var(--accent);cursor:pointer;background:transparent" data-tag="'+i+':'+j+'">+ '+esc(t)+'</button>'});
+        if(n.sug.length)h+='<span class="muted" style="font-size:12px">AI gợi ý thẻ, bạn chọn</span>';
+        h+='</div><div class="row"><button class="btn" type="button" data-ins="'+i+'">Chèn vào nháp</button><button class="btn ghost" type="button" data-open="'+l.slide+'">Xem slide</button><button class="btn ghost" type="button" data-del="'+i+'">Xóa</button></div><div data-slot></div></div>';
+      });
+      stage.innerHTML=h;
+    }
+    function lineOf(node){while(node&&node!==stage){if(node.getAttribute&&node.getAttribute('data-line')!==null)return +node.getAttribute('data-line');node=node.parentNode}return null}
+    stage.onmouseup=function(e){
+      if(e.target.closest('button,input,.preview'))return;
+      var s=window.getSelection?window.getSelection():null,txt=s?String(s).trim():'';
+      var li=s&&s.anchorNode?lineOf(s.anchorNode):null;
+      if(li===null)li=lineOf(e.target);
+      if(li===null)return;
+      if(!txt)txt=TRANSCRIPT[li].text;
+      sel={line:li,text:txt};lastAdded=null;mark('select:'+TRANSCRIPT[li].t);draw();
+    };
+    stage.oninput=function(e){var c=e.target.getAttribute('data-cm');if(c!==null)notes[+c].comment=e.target.value};
+    stage.onclick=function(e){
+      var act=e.target.getAttribute('data-act');
+      if(act==='cancel'){sel=null;mark('cancel');draw();return}
+      if(act==='undo'){notes.splice(lastAdded,1);lastAdded=null;mark('undo');draw();return}
+      if(act&&sel){
+        var l=TRANSCRIPT[sel.line];
+        if(act==='insert'){insertText('"'+sel.text+'"');addCite(src(l));mark('insert-direct');sel=null;draw();return}
+        notes.push({line:sel.line,text:sel.text,comment:'',tags:[],sug:(TAGS[l.t]||[]).slice(),unclear:act==='unclear'});
+        lastAdded=notes.length-1;mark(act==='unclear'?'mark-unclear':'add-note');sel=null;draw();return;
+      }
+      var tg=e.target.getAttribute('data-tag');
+      if(tg){var p=tg.split(':'),n=notes[+p[0]];n.tags.push(n.sug.splice(+p[1],1)[0]);mark('accept-tag');draw();return}
+      var ut=e.target.getAttribute('data-untag');
+      if(ut){var q=ut.split(':');notes[+q[0]].tags.splice(+q[1],1);mark('remove-tag');draw();return}
+      var ins=e.target.getAttribute('data-ins');
+      if(ins!==null){var n2=notes[+ins],l2=TRANSCRIPT[n2.line];insertText('"'+n2.text+'"'+(n2.comment?' — '+n2.comment:''));addCite(src(l2));return}
+      var del=e.target.getAttribute('data-del');
+      if(del!==null){notes.splice(+del,1);lastAdded=null;mark('delete');draw();return}
+      var o=e.target.getAttribute('data-open');
       if(o){var slot=e.target.closest('.note').querySelector('[data-slot]');slot.innerHTML=slot.innerHTML?'':sourceCard(o);mark('open:'+o)}
-      if(p){var n=byId(NOTES,p);insertText(n.text);addCite(n.anchor?byId(SLIDES,n.anchor).src:n.src);e.target.disabled=true;e.target.textContent='Đã chèn vào nháp'}
-      if(e.target.getAttribute('data-none')){mark('reject-all');res.innerHTML='<p>Đã bỏ kết quả. Bạn tả lại theo cách khác, ví dụ một tình huống hoặc ví dụ đi kèm ý đó.</p>';q.focus()}
-    });
+    };
+    draw();
   }
 
   // ---------- Option C: AI proactively gathers related notes when Lab opens; user reviews each ----------
@@ -252,7 +287,7 @@ ul.clean{margin:0;padding-left:18px}
 
   function clearShared(){draft.value='';cites.innerHTML='';doneMsg.textContent=''}
   function show(opt){
-    current=opt;stage.onclick=null;
+    current=opt;stage.onclick=null;stage.onmouseup=null;stage.oninput=null;
     ['A','B','C'].forEach(function(k){document.getElementById('tab'+k).setAttribute('aria-selected',k===opt?'true':'false')});
     clearShared();({A:renderA,B:renderB,C:renderC})[opt]();mark('open-option');
   }
